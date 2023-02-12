@@ -94,7 +94,7 @@ class User(db.Model):
         nullable=False,
     )
 
-    messages = db.relationship('Message')
+    messages = db.relationship('Message', cascade='all, delete')
 
     followers = db.relationship(
         "User",
@@ -199,7 +199,6 @@ class Message(db.Model):
 
     user = db.relationship('User')
 
-
 def connect_db(app):
     """Connect this database to provided Flask app.
 
@@ -207,4 +206,5 @@ def connect_db(app):
     """
 
     db.app = app
+    app.app_context().push()
     db.init_app(app)
